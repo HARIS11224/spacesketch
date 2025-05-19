@@ -1,0 +1,457 @@
+/*
+ * General Formatting
+ */
+
+ html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f7fc;
+}
+
+/* Apply smooth transitions to all elements */
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+
+/*
+ * Sidebar
+ */
+ .w-64 {
+  width: 20rem; /* Ensures the sidebar has a fixed width */
+}
+
+#add-items {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto; /* Enables scrolling if items exceed the height */
+}
+
+#items-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Adds spacing between items */
+}
+
+#items-wrapper img {
+  max-width: 100%; /* Ensures images fit within the container */
+  height: auto; /* Maintains aspect ratio */
+}
+
+
+.sidebar {
+  width: 100%;
+  max-width: 300px;
+  height: 100vh;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+  background: linear-gradient(135deg, #1f3a93, #3498db);
+  color: #fff;
+}
+
+.sidebar h5 {
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Sidebar navigation styles */
+.nav-sidebar {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-sidebar > li {
+  margin-bottom: 15px;
+}
+
+.nav-sidebar > li > a {
+  display: block;
+  padding: 12px 20px;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-sidebar > li > a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Active link */
+.nav-sidebar > .active > a {
+  background-color: #ff4757;
+  color: #fff;
+  font-weight: bold;
+}
+
+/*
+ * Main content
+ */
+
+.main {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/*
+ * Loading Modal
+ */
+
+#loading-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+}
+
+#loading-modal h1 {
+  color: #fff;
+  font-size: 24px;
+  animation: fadeIn 1s infinite alternate;
+}
+
+/* Animation for loading text */
+@keyframes fadeIn {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/*
+ * Design Section
+ */
+
+#viewer, #floorplanner, #add-items {
+  display: none;
+}
+
+/* Smooth scrolling for long lists */
+#add-items {
+  padding: 50px;
+  overflow-y: scroll;
+  max-height: 95vh;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.9);
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #3498db rgba(52, 152, 219, 0.2); /* For Firefox */
+}
+
+/* Chrome, Edge, and Safari Scrollbar Styling */
+#add-items::-webkit-scrollbar {
+  width: 10px;
+}
+
+#add-items::-webkit-scrollbar-track {
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 10px;
+}
+
+#add-items::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #3498db, #1f3a93);
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+#add-items::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1f3a93, #3498db);
+}
+
+/* Smooth Scrolling Effect */
+#add-items {
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+
+
+.add-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 140px; /* Adjust as needed */
+  height: 160px;
+  margin: 15px;
+  padding: 12px;
+  background: linear-gradient(145deg, #f0f0f0, #dcdcdc);
+  border-radius: 15px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15), -4px -4px 8px rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+}
+/* .box {
+  width: 33.33333333%;
+} */
+
+.add-item img {
+  width: 90%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.add-item:hover {
+  transform: scale(1.08);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9);
+}
+
+.add-item:hover img {
+  transform: scale(1.1);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.add-item .item-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  color: #333;
+  transition: color 0.3s ease-in-out;
+}
+
+.add-item:hover .item-title {
+  color: #3498db;
+}
+
+/* Scrollbar Customization */
+#add-items::-webkit-scrollbar {
+  width: 20px;
+}
+
+#add-items::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+#add-items::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3498db, #6c5ce7);
+  border-radius: 10px;
+}
+
+#add-items::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #2980b9, #5a4ec2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .add-item {
+    width: 120px;
+    height: 140px;
+  }
+
+  .add-item .item-title {
+    font-size: 12px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Controls
+ */
+
+#main-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+#camera-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  text-align: right;
+}
+
+/*
+ * Floorplanner Controls
+ */
+
+#floorplanner-controls {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-align: center;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Draw Walls Hint */
+#draw-walls-hint {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  display: none;
+}
+
+/*
+ * Buttons
+ */
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #3498db, #1f3a93);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, #1f3a93, #3498db);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+}
+
+/* File input button */
+.btn-file {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/*
+ * Inputs
+ */
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="number"]:focus {
+  border-color: #3498db;
+}
+
+/*
+ * Texture Selection
+ */
+
+.texture-thumbnail {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.texture-thumbnail:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/*
+ * Responsive Design
+ */
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .main {
+    width: 100%;
+    padding: 10px;
+  }
+
+  #floorplanner-controls {
+    position: relative;
+  }
+
+  #camera-controls {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .texture-thumbnail {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .texture-thumbnail {
+    width: 60px;
+    height: 60px;
+  }
+}
