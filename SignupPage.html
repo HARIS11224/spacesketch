@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi-Step Signup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .warning-message {
+      font-size: 12px;
+      color: #f87171;
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-cover bg-center flex items-center justify-center relative" style="background-image: url('https://img.lovepik.com/bg/20240411/Minimalist-Living-Room-Design-Stunning-3D-Render-of-Sleek-Modern_5813593_wh860.jpg!/fw/860');">
+  
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+  <!-- Card Container -->
+  <div class="relative z-10 p-8 rounded-xl shadow-2xl max-w-md w-full bg-opacity-50 backdrop-blur-md" style="background-image: url('https://media.istockphoto.com/id/505973586/fi/valokuva/harmaa-nojatuoli-eristetty.jpg?s=1024x1024&w=is&k=20&c=nc0p9XWV0E_CXd-5SzL1vtz2YKK7nErsI5DNozgO0eY='); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-black bg-opacity-50 rounded-xl"></div>
+    <div class="relative z-10 text-white">
+
+      <!-- Step 1 -->
+      <div id="step-1">
+        <h2 class="text-3xl font-bold text-center mb-4">Create Account</h2>
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Name</label>
+          <input type="text" id="name" placeholder="Enter your name" class="w-full px-4 py-2 rounded-lg bg-gray-800 bg-opacity-60 text-white placeholder-gray-400 border border-gray-400 focus:ring-2 focus:ring-pink-400" />
+          <div id="name-warning" class="warning-message">Name must only contain alphabetic characters and spaces.</div>
+        </div>
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Email</label>
+          <input type="email" id="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-lg bg-gray-800 bg-opacity-60 text-white placeholder-gray-400 border border-gray-400 focus:ring-2 focus:ring-pink-400" />
+          <div id="email-warning" class="warning-message">Please enter a valid email address.</div>
+        </div>
+        <div class="mb-6">
+          <label class="block font-semibold mb-1">Password</label>
+          <input type="password" id="password" placeholder="Create a password" class="w-full px-4 py-2 rounded-lg bg-gray-800 bg-opacity-60 text-white placeholder-gray-400 border border-gray-400 focus:ring-2 focus:ring-pink-400" />
+          <div id="password-warning" class="warning-message">Password must be 8+ characters with uppercase, lowercase, number, and special character.</div>
+        </div>
+        <button onclick="validateStep1()" class="w-full py-3 rounded-lg bg-pink-600 hover:bg-pink-700 transition shadow-md hover:shadow-lg">Next</button>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="step-2" class="hidden">
+        <h2 class="text-3xl font-bold text-center mb-4">Profile Info</h2>
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Short Bio</label>
+          <textarea id="bio" placeholder="Tell us a bit about yourself" class="w-full px-4 py-2 rounded-lg bg-gray-800 bg-opacity-60 text-white placeholder-gray-400 border border-gray-400 focus:ring-2 focus:ring-pink-400"></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Role</label>
+          <select id="role" class="w-full px-4 py-2 rounded-lg bg-gray-800 bg-opacity-60 text-white border border-gray-400">
+            <option>Client</option>
+            <option>Designer</option>
+            <option>Architect</option>
+          </select>
+        </div>
+        <div class="mb-6">
+          <label class="block font-semibold mb-1">Upload Profile Image</label>
+          <input type="file" id="profileImageFile" accept="image/*" class="text-white" />
+        </div>
+        <div class="flex justify-between">
+          <button onclick="goToStep1()" class="px-6 py-2 rounded-lg bg-gray-400 text-black font-semibold hover:bg-gray-300">Back</button>
+          <button onclick="handleImageAndNext()" class="px-6 py-2 rounded-lg bg-pink-600 hover:bg-pink-700 transition shadow-md hover:shadow-lg">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="step-3" class="hidden">
+        <h2 class="text-3xl font-bold text-center mb-4">Preview & Confirm</h2>
+        <div id="preview" class="text-gray-200 text-sm space-y-2 mb-6"></div>
+        <div class="flex justify-between">
+          <button onclick="goToStep2()" class="px-6 py-2 rounded-lg bg-gray-400 text-black font-semibold hover:bg-gray-300">Back</button>
+          <button onclick="submitForm()" class="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 transition shadow-md hover:shadow-lg">Create Account</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function goToStep1() {
+      document.getElementById('step-1').classList.remove('hidden');
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.add('hidden');
+    }
+
+    function goToStep2() {
+      document.getElementById('step-1').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('hidden');
+      document.getElementById('step-3').classList.add('hidden');
+    }
+
+    function goToStep3() {
+      const preview = document.getElementById('preview');
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const bio = document.getElementById('bio').value;
+      const role = document.getElementById('role').value;
+      const profileImage = localStorage.getItem('profileImage');
+
+      preview.innerHTML = `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Bio:</strong> ${bio}</p>
+        <p><strong>Role:</strong> ${role}</p>
+        <div><strong>Profile Image:</strong><br/>
+          <img src="${profileImage}" class="w-24 h-24 rounded-full mt-2 border border-gray-300" />
+        </div>
+      `;
+
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.remove('hidden');
+    }
+
+    function validateStep1() {
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const nameWarning = document.getElementById('name-warning');
+      const emailWarning = document.getElementById('email-warning');
+      const passwordWarning = document.getElementById('password-warning');
+
+      const nameRegex = /^[a-zA-Z\s]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
+      nameWarning.style.display = 'none';
+      emailWarning.style.display = 'none';
+      passwordWarning.style.display = 'none';
+
+      name.classList.remove('border-red-500');
+      email.classList.remove('border-red-500');
+      password.classList.remove('border-red-500');
+
+      let isValid = true;
+
+      if (!nameRegex.test(name.value)) {
+        nameWarning.style.display = 'block';
+        name.classList.add('border-red-500');
+        isValid = false;
+      }
+
+      if (!emailRegex.test(email.value)) {
+        emailWarning.style.display = 'block';
+        email.classList.add('border-red-500');
+        isValid = false;
+      }
+
+      if (!passwordRegex.test(password.value)) {
+        passwordWarning.style.display = 'block';
+        password.classList.add('border-red-500');
+        isValid = false;
+      }
+
+      if (isValid) goToStep2();
+    }
+
+    function handleImageAndNext() {
+      const fileInput = document.getElementById('profileImageFile');
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Please upload a profile image.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        localStorage.setItem('profileImage', e.target.result);
+        goToStep3();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    
+    async function submitForm() {
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const bio = document.getElementById('bio').value;
+  const role = document.getElementById('role').value;
+  const fileInput = document.getElementById('profileImageFile');
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Please upload a profile image.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('password', password);
+  formData.append('bio', bio);
+  formData.append('role', role);
+  formData.append('profileImage', file); // Important: Match 'profileImage' with multer's key
+
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/signup', {
+      method: 'POST',
+      body: formData, // no Content-Type header — browser sets it automatically
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      alert("Account created successfully!");
+      window.location.href = "LoginPage.html";
+    } else {
+      alert(data.message || "An error occurred.");
+    }
+  } catch (err) {
+    alert("Network error: " + err.message);
+  }
+}
+
+
+
+
+  </script>
+</body>
+</html>

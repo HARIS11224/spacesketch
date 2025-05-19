@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpaceSketch - Design in 3D</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+
+  <!-- AOS (Scroll Animations) -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <style>
+
+  .typed-cursor {
+    font-weight: 700;
+    font-size: 3rem; /* Match your text-5xl */
+    line-height: 1;
+    vertical-align: baseline;
+    margin-left: 2px; /* Optional spacing from text */
+  }
+
+
+    body.dark {
+      background-color: #1a202c;
+      color: #edf2f7;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+
+    
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-600 via-gray-800 to-indigo-900 text-white font-sans min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-opacity-30 backdrop-blur-lg border-b border-gray-700 text-white px-6 py-4 flex justify-between items-center sticky top-0 z-50 transition duration-300">
+    <div class="text-3xl font-extrabold tracking-wide">  SpaceSketch</div>
+    <div class="space-x-6 hidden md:flex items-center text-lg font-medium">
+      <a href="#features" class="hover:text-indigo-300 transition duration-200">Features</a>
+      <a href="#testimonials" class="hover:text-indigo-300 transition duration-200">Testimonials</a>
+      <a href="#gallery" class="hover:text-indigo-300 transition duration-200">Gallery</a>
+      <a href="#pricing" class="hover:text-indigo-300 transition duration-200">Pricing</a>
+      <a href="#faq" class="hover:text-indigo-300 transition duration-200">FAQ</a>
+      <a href="#contact" class="hover:text-indigo-300 transition duration-200">Contact</a>
+      <a href="LoginPage.html" 
+      class="bg-gradient-to-r from-gray-400 to-gray-600 text-white px-6 py-3 rounded-xl shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-gradient-to-r hover:from-gray-500 hover:to-gray-700">
+      🚀 Launch Designer
+   </a>
+   
+   
+   
+      
+   
+      <button onclick="toggleDarkMode()" class="ml-4 text-xl" title="Toggle Dark Mode">🌓</button>
+    </div>
+    <button class="md:hidden text-2xl" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">☰</button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="bg-gray-900 bg-opacity-80 text-white px-6 py-4 space-y-2 hidden md:hidden">
+    <a href="#features" class="block hover:text-indigo-300">Features</a>
+    <a href="#testimonials" class="block hover:text-indigo-300">Testimonials</a>
+    <a href="#gallery" class="block hover:text-indigo-300">Gallery</a>
+    <a href="#pricing" class="block hover:text-indigo-300">Pricing</a>
+    <a href="#faq" class="block hover:text-indigo-300">FAQ</a>
+    <a href="#contact" class="block hover:text-indigo-300">Contact</a>
+    <a href="LoginPage.html" class="block bg-gray-700 hover:bg-gray-700 px-4 py-2 rounded-xl bg-transparent">Launch Designer</a>
+    <button onclick="toggleDarkMode()" class="block w-full text-left hover:text-indigo-300">🌓 Toggle Dark Mode</button>
+  </div>
+
+  <!-- Hero Section -->
+<!-- Hero: Split Screen -->
+<section class="mb-20 flex flex-col md:flex-row items-center justify-between gap-10 px-6 md:px-16 py-24 bg-white/10 backdrop-blur-xl text-white">
+
+  <!-- Text Content -->
+  <div class="md:w-1/2 text-center md:text-left space-y-6" data-aos="fade-right">
+    <h1 class="text-5xl font-extrabold leading-tight text-gray-300">
+      <span id="typed-text" class="inline-block"></span>
+    </h1>
+    
+  
+    <p class="text-lg text-gray-300 opacity-80">
+      Create, customize, and visualize your dream rooms in 3D — all from your browser.
+    </p>
+  
+    <div class="flex justify-center md:justify-start gap-4">
+      <a href="LoginPage.html" class="bg-gray-700 hover:bg-gray-800 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-md">Get Started</a>
+      <a href="gallery.html" class="border border-white/30 hover:bg-white/10 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-md">View Gallery</a>
+    </div>
+  </div>
+  
+
+  <!-- Image or 3D Preview -->
+  <div class="md:w-1/2 relative" data-aos="fade-left">
+    <div class="rounded-3xl overflow-hidden shadow-2xl border border-white/20 transform transition-transform duration-500 hover:rotate-x-2 hover:-rotate-y-2 hover:scale-105 perspective-1000">
+      <img src="/11444645.png" alt="3D Room Design" class="w-full object-cover" />
+    </div>
+    
+  </div>
+</section>
+
+
+  <!-- <section class="relative h-[60vh] sm:h-[80vh] md:h-screen flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230705/pngtree-contemporary-gray-sofa-in-minimalist-living-room-setting-3d-render-image_3715315.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    <div class="relative z-10 max-w-xl px-4">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
+        <span id="typed-text"></span>
+      </h1>
+      <p class="text-base sm:text-lg md:text-xl text-white mb-6 hidden sm:block">Craft dream interiors with our advanced 3D tools — intuitive, beautiful, and fast.</p>
+      <a href=" " class="inline-block bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-full text-sm sm:text-lg font-semibold text-white shadow-lg transition transform hover:scale-105 duration-300 hover:shadow-2xl">Launch Designer</a>
+    </div>
+  </section> -->
+
+
+
+
+  <!-- Features -->
+  <section id="features" class="py-20">
+    <div class="max-w-screen-xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-extrabold mb-12" data-aos="fade-up">🚀 Why Choose SpaceSketch?</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg" data-aos="fade-up">
+          <div class="text-4xl mb-3">🛋️</div>
+          <h3 class="text-xl font-semibold mb-2">3D Builder</h3>
+          <p>Drag and drop furniture in real-time with full 360° previews.</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-4xl mb-3">🎥</div>
+          <h3 class="text-xl font-semibold mb-2">Live Preview</h3>
+          <p>Instantly visualize layout and lighting before committing.</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-4xl mb-3">🎨</div>
+          <h3 class="text-xl font-semibold mb-2">Custom Styles</h3>
+          <p>Change colors, textures, and decor to match your vision.</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
+          <div class="text-4xl mb-3">📤</div>
+          <h3 class="text-xl font-semibold mb-2">Export Designs</h3>
+          <p>Download images or share interactive views with clients.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Gallery -->
+  <section id="gallery" class="py-20">
+    <div class="max-w-screen-xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-extrabold mb-12" data-aos="fade-up">🎨 Inspiration Gallery</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div class="relative overflow-hidden rounded-xl shadow-lg h-80">
+          <img src="https://planner5d.com/assets/images/landing-seo/architecture-design-software/get_help@2x.webp" class="w-full h-full object-cover" alt="Gallery Item 1" data-aos="zoom-in">
+        </div>
+        <div class="relative overflow-hidden rounded-xl shadow-lg h-80">
+          <img src="https://planner5d.com/assets/images/landing-seo/architecture-design-software/steps_1@2x.webp" class="w-full h-full object-cover" alt="Gallery Item 2" data-aos="zoom-in" data-aos-delay="100">
+        </div>
+        <div class="relative overflow-hidden rounded-xl shadow-lg h-80">
+          <img src="https://i.pinimg.com/originals/26/e8/58/26e8583f0127ec2f2277c69f9014be53.jpg" class="w-full h-full object-cover" alt="Gallery Item 3" data-aos="zoom-in" data-aos-delay="200">
+        </div>
+      </div>
+      <div class="mt-10">
+        <a href="gallery.html" class="text-indigo-300 hover:text-indigo-100 transition duration-200">View Full Gallery →</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="py-20">
+    <div class="max-w-screen-lg mx-auto px-4 text-center">
+      <h2 class="text-4xl font-extrabold mb-12" data-aos="fade-up">💬 What Our Users Say</h2>
+      <div class="space-y-12">
+        <blockquote class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-md" data-aos="fade-right">
+          <p class="italic">"SpaceSketch helped me visualize my renovation like a pro. I saved time and made better decisions!"</p>
+          <footer class="mt-4 font-semibold text-indigo-300">— Sarah D., Interior Designer</footer>
+        </blockquote>
+        <blockquote class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-md" data-aos="fade-left">
+          <p class="italic">"The drag-and-drop tool is insanely intuitive. I designed my dream home office in under an hour."</p>
+          <footer class="mt-4 font-semibold text-indigo-300">— James M., Freelancer</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="py-20 bg-gradient-to-r from-gray-900 to-gray-700 text-white">
+    <div class="max-w-screen-xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-extrabold mb-12" data-aos="fade-up">💰 Affordable Pricing</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Free Plan -->
+        <div class="bg-black bg-opacity-40 p-6 rounded-xl shadow-xl hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up">
+          <h3 class="text-2xl font-bold mb-4">Free</h3>
+          <p class="text-3xl font-extrabold mb-4">$0</p>
+          <ul class="space-y-2 mb-6">
+            <li>✔️ Basic tools</li>
+            <li>✔️ Save up to 2 projects</li>
+            <li>✔️ Limited furniture set</li>
+          </ul>
+          <button class="bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-2 rounded-full font-semibold transition duration-300 ease-in-out hover:from-green-500 hover:to-green-700">Start Free</button>
+        </div>
+  
+        <!-- Pro Plan -->
+        <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 p-6 rounded-xl shadow-xl transform scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="100">
+          <h3 class="text-2xl font-bold mb-4">Pro</h3>
+          <p class="text-3xl font-extrabold mb-4">$12/mo</p>
+          <ul class="space-y-2 mb-6">
+            <li>✔️ Unlimited projects</li>
+            <li>✔️ Full furniture catalog</li>
+            <li>✔️ 4K export</li>
+          </ul>
+          <button class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-6 py-2 rounded-full font-semibold transition duration-300 ease-in-out hover:from-yellow-500 hover:to-yellow-700">Go Pro</button>
+        </div>
+  
+        <!-- Team Plan -->
+        <div class="bg-black bg-opacity-40 p-6 rounded-xl shadow-xl hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="200">
+          <h3 class="text-2xl font-bold mb-4">Team</h3>
+          <p class="text-3xl font-extrabold mb-4">$25/mo</p>
+          <ul class="space-y-2 mb-6">
+            <li>✔️ Team collaboration</li>
+            <li>✔️ Admin dashboard</li>
+            <li>✔️ Priority support</li>
+          </ul>
+          <button class="bg-gradient-to-r from-red-500 to-red-700 text-white px-6 py-2 rounded-full font-semibold transition duration-300 ease-in-out hover:from-red-600 hover:to-red-800">Start Team</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+<!-- FAQ -->
+<section id="faq" class="py-20">
+  <div class="max-w-screen-md mx-auto px-4 text-center">
+    <h2 class="text-4xl font-extrabold mb-12" data-aos="fade-up">❓ Frequently Asked Questions</h2>
+    <div class="space-y-6 text-left">
+      <div class="bg-white/10 p-4 rounded-lg" data-aos="fade-right">
+        <h3 class="font-bold text-lg">Can I use SpaceSketch for free?</h3>
+        <p>Yes! Our Free plan lets you explore core features without payment.</p>
+      </div>
+      <div class="bg-white/10 p-4 rounded-lg" data-aos="fade-right" data-aos-delay="100">
+        <h3 class="font-bold text-lg">Can I collaborate with others?</h3>
+        <p>With the Team plan, you can invite team members and manage shared designs.</p>
+      </div>
+      <div class="bg-white/10 p-4 rounded-lg" data-aos="fade-right" data-aos-delay="200">
+        <h3 class="font-bold text-lg">Do I need to install software?</h3>
+        <p>No installation needed — SpaceSketch runs entirely in your browser.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Contact -->
+<section id="contact" class="py-20 bg-white/10 backdrop-blur-lg">
+  <div class="max-w-screen-md mx-auto px-4 text-center text-white">
+    <h2 class="text-4xl font-extrabold mb-8" data-aos="fade-up">📬 Get in Touch</h2>
+    <form class="space-y-6" data-aos="fade-up" data-aos-delay="100">
+      <input type="text" placeholder="Your Name" class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none" />
+      <input type="email" placeholder="Your Email" class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none" />
+      <textarea rows="5" placeholder="Your Message" class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none"></textarea>
+      <button type="submit" class="bg-gray-700 hover:bg-gray-800 px-6 py-3 rounded-full font-semibold">Send Message</button>
+    </form>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer class="bg-black bg-opacity-30 backdrop-blur text-white py-6 text-center text-sm mt-12">
+    <p>&copy; 2025 SpaceSketch. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    AOS.init();
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+    var typed = new Typed("#typed-text", {
+      strings: ["Design in 3D.", "Visualize your space.", "Bring interiors to life."],
+      typeSpeed: 50,
+      backSpeed: 30,
+      loop: true
+    });
+  </script>
+</body>
+</html>

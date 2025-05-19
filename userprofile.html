@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
+    <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">User Profile</h2>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-gray-600 text-sm font-medium">Name</label>
+        <p id="username" class="text-gray-900 font-semibold">Loading...</p>
+      </div>
+
+      <div>
+        <label class="block text-gray-600 text-sm font-medium">Email</label>
+        <p id="email" class="text-gray-900 font-semibold">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Profile Creation Prompt if data is missing -->
+    <div id="add-profile-message" class="mt-4 text-center text-red-600 hidden">
+      <p>Your profile is incomplete. Please add your details to complete your profile. <a href="ProfileUpdatePage.html" class="text-blue-600 underline">Click here to create your profile</a>.</p>
+    </div>
+
+    <button id="logout" class="mt-8 w-full bg-red-600 text-white font-bold py-2 rounded hover:bg-red-700 transition">
+      Logout
+    </button>
+  </div>
+
+  <script>
+    // Check if token exists
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      window.location.href = "LoginPage.html";
+    }
+
+    // Fetch user profile using the token
+    fetch("http://192.168.0.105:5000/api/auth/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(res => {
+      console.log("Response status:", res.status); // Log the status code
+      if (!res.ok) {
+        throw new Error("Unauthorized or token expired");
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log("Profile data:", data); // Log the response data
+      if (data.name && data.email) {
+        document.getElementById("username").innerText = data.name;
+        document.getElementById("email").innerText = data.email;
+      } else {
+        // If no profile data, show message to update the profile
+        document.getElementById("add-profile-message").classList.remove("hidden");
+      }
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("An error occurred: " + err.message);
+      localStorage.removeItem("token");
+      window.location.href = "LoginPage.html";
+    });
+
+    // Logout functionality
+    document.getElementById("logout").addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.href = "LoginPage.html";
+    });
+  </script>
+</body>
+</html>

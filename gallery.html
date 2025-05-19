@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpaceSketch - Full Gallery</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+
+  <!-- AOS Animation -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <style>
+    body.dark {
+      background-color: #1a202c;
+      color: #edf2f7;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-600 via-gray-800 to-indigo-900 text-white font-sans min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-opacity-30 backdrop-blur-lg border-b border-gray-700 text-white px-6 py-4 flex justify-between items-center sticky top-0 z-50 transition duration-300">
+    <div class="text-3xl font-extrabold tracking-wide"> SpaceSketch</div>
+    <div class="space-x-6 hidden md:flex items-center text-lg font-medium">
+      <a href="index.html#features" class="hover:text-indigo-300 transition duration-200">Features</a>
+      <a href="index.html#gallery" class="hover:text-indigo-300 transition duration-200">Gallery</a>
+      <a href="index.html#pricing" class="hover:text-indigo-300 transition duration-200">Pricing</a>
+      <a href="LoginPage.html" class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-xl transition duration-200">Launch Designer</a>
+      <button onclick="toggleDarkMode()" class="ml-4 text-xl" title="Toggle Dark Mode">🌓</button>
+    </div>
+    <button class="md:hidden text-2xl" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">☰</button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div id="mobileMenu" class="bg-gray-900 bg-opacity-80 text-white px-6 py-4 space-y-2 hidden md:hidden">
+    <a href="index.html#features" class="block hover:text-indigo-300">Features</a>
+    <a href="index.html#gallery" class="block hover:text-indigo-300">Gallery</a>
+    <a href="index.html#pricing" class="block hover:text-indigo-300">Pricing</a>
+    <a href="LoginPage.html" class="block bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-xl">Launch Designer</a>
+    <button onclick="toggleDarkMode()" class="block w-full text-left hover:text-indigo-300">🌓 Toggle Dark Mode</button>
+  </div>
+
+  <!-- Full Gallery Section -->
+  <section class="py-20">
+    <div class="max-w-screen-xl mx-auto px-4 text-center">
+      <h2 class="text-5xl font-extrabold mb-12" data-aos="fade-up">✨ Explore the Full Gallery</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+
+        <!-- Repeat this card structure for each item -->
+        <div class="cursor-pointer bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300" data-aos="fade-up"
+          onclick="openCardModal('Modern Living Room', 'Bright space with neutral tones and cozy textures for a calming vibe.', 'https://planner5d.com/assets/images/landing-seo/architecture-design-software/get_help@2x.webp')">
+          <img src="https://planner5d.com/assets/images/landing-seo/architecture-design-software/get_help@2x.webp" alt="Living Room" class="w-full h-48 object-cover">
+          <div class="p-5 text-left text-white">
+            <h3 class="text-xl font-semibold">Modern Living Room</h3>
+            <p class="text-sm mt-2">Bright space with neutral tones and cozy textures for a calming vibe.</p>
+          </div>
+        </div>
+
+        <div class="cursor-pointer bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300" data-aos="fade-up" data-aos-delay="100"
+          onclick="openCardModal('Stylish Bedroom', 'Minimalist décor blended with earthy tones for comfort and simplicity.', 'https://planner5d.com/assets/images/landing-seo/architecture-design-software/steps_1@2x.webp')">
+          <img src="https://planner5d.com/assets/images/landing-seo/architecture-design-software/steps_1@2x.webp" alt="Bedroom" class="w-full h-48 object-cover">
+          <div class="p-5 text-left text-white">
+            <h3 class="text-xl font-semibold">Stylish Bedroom</h3>
+            <p class="text-sm mt-2">Minimalist décor blended with earthy tones for comfort and simplicity.</p>
+          </div>
+        </div>
+
+<!-- Gallery Card 3 -->
+<div class="cursor-pointer bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300" data-aos="fade-up" data-aos-delay="200"
+  onclick="openCardModal('Elegant Kitchen', 'Sleek white cabinetry paired with modern lighting and a spacious island.', 'https://planner5d.com/assets/images/landing-seo/architecture-design-software/steps_2@2x.webp')">
+  <img src="https://planner5d.com/assets/images/landing-seo/architecture-design-software/steps_2@2x.webp" alt="Kitchen" class="w-full h-48 object-cover">
+  <div class="p-5 text-left text-white">
+    <h3 class="text-xl font-semibold">Elegant Kitchen</h3>
+    <p class="text-sm mt-2">Sleek white cabinetry paired with modern lighting and a spacious island.</p>
+  </div>
+</div>
+
+<!-- Gallery Card 4 -->
+<div class="cursor-pointer bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300" data-aos="fade-up" data-aos-delay="300"
+  onclick="openCardModal('Cozy Workspace', 'Functional layout with natural light and wooden textures for a productive mood.', 'https://planner5d.com/assets/images/landing-seo/architecture-design-software/steps_3@2x.webp')">
+  <img src="https://planner5d.com/assets/images/landing-seo/architecture-design-software/steps_3@2x.webp" alt="Workspace" class="w-full h-48 object-cover">
+  <div class="p-5 text-left text-white">
+    <h3 class="text-xl font-semibold">Cozy Workspace</h3>
+    <p class="text-sm mt-2">Functional layout with natural light and wooden textures for a productive mood.</p>
+  </div>
+</div>
+<!-- Gallery Card 5 -->
+<div class="cursor-pointer bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300" data-aos="fade-up" data-aos-delay="600"
+  onclick="openCardModal('Futuristic Office', 'Tech-forward design with dynamic lighting and minimalist furniture.', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80')">
+  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Futuristic Office" class="w-full h-48 object-cover">
+  <div class="p-5 text-left text-white">
+    <h3 class="text-xl font-semibold">Futuristic Office</h3>
+    <p class="text-sm mt-2">Tech-forward design with dynamic lighting and minimalist furniture.</p>
+  </div>
+</div>                    
+
+
+      </div>
+
+      <div class="mt-14">
+        <a href="index.html#gallery" class="text-indigo-300 hover:text-indigo-100 text-lg transition duration-200">← Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Card Modal -->
+  <div id="cardModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm hidden z-50 flex items-center justify-center px-4">
+    <div class="bg-white text-black max-w-lg w-full rounded-2xl overflow-auto max-h-[90vh] relative shadow-xl animate-fadeIn">
+      <button onclick="closeCardModal()" class="absolute top-3 right-4 text-xl text-gray-600 hover:text-black">✕</button>
+      <img id="modalImage" src="" alt="Detail Image" class="w-full h-64 object-cover rounded-t-2xl">
+      <div class="p-6">
+        <h3 id="modalTitle" class="text-2xl font-bold mb-3"></h3>
+        <p id="modalDescription" class="text-gray-700 text-base"></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="bg-black bg-opacity-30 backdrop-blur text-white py-6 mt-12 text-center text-sm">
+    <p>&copy; 2025 SpaceSketch. All rights reserved.</p>
+  </footer>
+
+  <script>
+    AOS.init();
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function openCardModal(title, description, imageSrc) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalDescription').textContent = description;
+      document.getElementById('modalImage').src = imageSrc;
+      document.getElementById('cardModal').classList.remove('hidden');
+    }
+
+    function closeCardModal() {
+      document.getElementById('cardModal').classList.add('hidden');
+    }
+
+    // Close modal when clicking outside card
+    document.getElementById('cardModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeCardModal();
+      }
+    });
+  </script>
+
+  <!-- Simple animation fade-in -->
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-out;
+    }
+  </style>
+</body>
+</html>

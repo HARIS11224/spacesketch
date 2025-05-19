@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" x-data="chatbot()" x-init="init()" class="h-full bg-gray-900 text-white" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat With AI - SpaceSketch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="h-full flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gray-800 p-4 border-b border-gray-700 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="text-green-400 hover:text-green-300 text-sm font-medium flex items-center">
+        ← Back
+      </a>
+      <h1 class="text-xl font-semibold">ChatBot Assistant</h1>
+    </div>
+    <div class="text-sm text-gray-400">SpaceSketch AI</div>
+  </header>
+
+  <!-- Chat Area -->
+  <main class="flex-1 overflow-y-auto px-4 py-6 space-y-4" id="chatContainer">
+    <template x-for="msg in messages" :key="msg.id">
+      <div :class="msg.sender === 'user' ? 'flex justify-end' : 'flex justify-start'">
+        <div
+          :class="msg.sender === 'user' ? 'bg-green-600 text-white' : 'bg-gray-700 text-white'"
+          class="px-4 py-2 rounded-lg max-w-sm text-sm">
+          <p x-text="msg.text"></p>
+        </div>
+      </div>
+    </template>
+  </main>
+
+  <!-- Input Area -->
+  <footer class="bg-gray-800 p-4 border-t border-gray-700">
+    <form @submit.prevent="sendMessage" class="flex space-x-2">
+      <input
+        type="text"
+        x-model="newMessage"
+        placeholder="Type your message..."
+        class="flex-1 px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 
+               focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+      <button
+        type="submit"
+        class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-white font-medium">
+        Send
+      </button>
+    </form>
+  </footer>
+
+  <!-- Alpine.js Logic -->
+  <script>
+    function chatbot() {
+      return {
+        messages: [
+          { id: 1, sender: 'bot', text: 'Nice to meet you, Mateen! What type of room are you looking to design today? (Like a bedroom, living room, office, etc.)' }
+        ],
+        newMessage: '',
+        sendMessage() {
+          if (!this.newMessage.trim()) return;
+
+          // Push user message
+          this.messages.push({
+            id: Date.now(),
+            sender: 'user',
+            text: this.newMessage.trim()
+          });
+
+          const userInput = this.newMessage.trim();
+          this.newMessage = '';
+
+          // Auto-scroll to bottom
+          this.$nextTick(() => {
+            const container = document.getElementById('chatContainer');
+            container.scrollTop = container.scrollHeight;
+          });
+
+          // Simulate bot response
+          setTimeout(() => {
+            this.messages.push({
+              id: Date.now() + 1,
+              sender: 'bot',
+              text: `Great! Let's start with your ${userInput.toLowerCase()} design. What style do you prefer? (Modern, Minimalist, Boho...)`
+            });
+
+            this.$nextTick(() => {
+              const container = document.getElementById('chatContainer');
+              container.scrollTop = container.scrollHeight;
+            });
+          }, 800);
+        },
+        init() {
+          const container = document.getElementById('chatContainer');
+          container.scrollTop = container.scrollHeight;
+        }
+      };
+    }
+  </script>
+</body>
+</html>
+

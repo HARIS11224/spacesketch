@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fade-in-down {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-down {
+      animation: fade-in-down 0.6s ease-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-900 text-white">
+
+  <!-- Fullscreen Background -->
+  <div
+    class="min-h-screen bg-cover bg-center flex items-center justify-center relative px-4"
+    style="background-image: url('https://img.lovepik.com/bg/20240426/green-wall-living-room-decor-with-sofa-plants-and-lamp_7416175_wh860.jpg!/fw/860');"
+  >
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+
+    <!-- Login Card -->
+    <div
+      class="relative z-10 bg-cover bg-center p-8 rounded-2xl shadow-2xl max-w-md w-full bg-opacity-90 backdrop-blur-xl animate-fade-in-down"
+      style="background-image: url('https://media.istockphoto.com/id/505973586/fi/valokuva/harmaa-nojatuoli-eristetty.jpg?s=1024x1024&w=is&k=20&c=nc0p9XWV0E_CXd-5SzL1vtz2YKK7nErsI5DNozgO0eY='); background-blend-mode: overlay;"
+    >
+
+      <!-- Card Overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-50 rounded-2xl"></div>
+
+      <!-- Card Content -->
+      <div class="relative z-10">
+        <!-- Logo -->
+       
+        <h2 class="text-4xl font-extrabold text-center mb-6">Welcome Back</h2>
+
+        <!-- Login Form -->
+        <form id="login-form">
+          <!-- Email -->
+          <div class="mb-5">
+            <label class="block text-gray-200 font-semibold mb-1">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full px-5 py-3 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white/10 text-white placeholder-gray-300"
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="mb-5">
+            <label class="block text-gray-200 font-semibold mb-1">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="w-full px-5 py-3 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white/10 text-white placeholder-gray-300"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="w-full py-3 px-6 rounded-lg font-bold text-white border border-gray-400 hover:bg-gray-500 hover:text-white transition duration-300"
+          >
+            Login
+          </button>
+        </form>
+
+        <!-- Signup Link -->
+        <div class="mt-6 text-center">
+          <p class="text-gray-300">
+            Don't have an account?
+            <a href="SignupPage.html" class="text-gray-300 hover:underline font-semibold">Sign up</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript to Handle Login -->
+  <script>
+    document.getElementById("login-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.token && data.userId) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("userId", data.userId);
+          window.location.href = "UserDashboard.html";
+        } else {
+          alert("Invalid credentials. Please try again.");
+        }
+      })
+      .catch(err => {
+        console.error("Login error:", err);
+        alert("Error logging in. Please try again later.");
+      });
+    });
+  </script>
+
+</body>
+</html>

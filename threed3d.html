@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Spacesketch</title>
+
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/example.css" rel="stylesheet">
+
+  <script src="js/three.min.js"></script>
+  <script src="js/spacesketch.js"></script>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.11/dist/interact.min.js"></script>
+
+  <script src="js/items.js"></script>
+  <script src="js/example.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<style>
+  .texture-card {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+
+  .texture-card img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+  }
+
+  .texture-grid .col-sm-6 {
+    padding: 6px;
+  }
+</style>
+
+<body>
+  <header class="bg-gray-700 text-white flex items-center justify-between px-8 py-4 relative rounded-lg shadow-md">
+    <!-- Left: Logo or Title -->
+    <h1 class="font-bold text-3xl">SpaceSketch</h1>
+
+    <!-- Center: View Toggle (2D / 3D) -->
+    <div class="absolute left-1/2 transform -translate-x-1/2">
+      <div class="bg-gray-600 w-60 rounded-full flex items-center shadow-inner overflow-hidden">
+        <button onclick="setView('2D')" class="flex-1 text-center font-semibold text-white text-lg py-2 transition"
+          id="floorplan_tab">
+          2D
+        </button>
+        <button onclick="setView('3D')" class="flex-1 text-center font-semibold text-white text-lg py-2 transition"
+          id="design_tab">
+          3D
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Controls and Dropdown -->
+    <div class="flex items-center gap-4">
+      <!-- Control Buttons (visible only in 2D) -->
+      <div id="floorplan-controls" class="flex items-center gap-2">
+        <button id="move"
+          class="bg-white text-gray-700 font-semibold px-3 py-1 rounded hover:bg-gray-100 transition">Move</button>
+        <button id="draw"
+          class="bg-white text-gray-700 font-semibold px-3 py-1 rounded hover:bg-gray-100 transition">Draw</button>
+        <button id="delete"
+          class="bg-white text-gray-700 font-semibold px-3 py-1 rounded hover:bg-gray-100 transition">Delete</button>
+        <button id="update-floorplan" class="bg-gray-500 hover:bg-gray-400 text-white px-4 py-2 rounded transition">Done
+          &raquo;</button>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="relative">
+        <button class="bg-gray-600 p-2 rounded-full hover:bg-gray-500 transition" id="menuButton">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+            class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18m-9-9v18" />
+          </svg>
+        </button>
+        <div id="dropdownMenu" class="absolute right-0 mt-2 w-44 bg-white text-black shadow-lg rounded-lg hidden z-50">
+          <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-200" id="new">New Plan</a>
+          <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-200" id="saveFile">Save Plan</a>
+          <label class="flex items-center gap-2 px-4 py-2 hover:bg-gray-200 cursor-pointer">
+            Load Plan
+            <input type="file" class="hidden" id="loadFile">
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript: Toggle View + Dropdown -->
+    <script>
+      function setView(view) {
+        const controls = document.getElementById('floorplan-controls');
+        const floorTab = document.getElementById('floorplan_tab');
+        const designTab = document.getElementById('design_tab');
+        const menuBar = document.getElementById('draggable-menu');
+
+        if (view === '2D') {
+          controls.classList.remove('hidden');
+          menuBar.classList.add('hidden'); // Hide menu in 2D
+          floorTab.classList.add('bg-white', 'text-gray-700');
+          designTab.classList.remove('bg-white', 'text-gray-700');
+        } else if (view === '3D') {
+          controls.classList.add('hidden');
+          menuBar.classList.remove('hidden'); // Show menu in 3D
+          designTab.classList.add('bg-white', 'text-gray-700');
+          floorTab.classList.remove('bg-white', 'text-gray-700');
+        }
+      }
+
+      document.getElementById('menuButton').addEventListener('click', function () {
+        document.getElementById('dropdownMenu').classList.toggle('hidden');
+      });
+
+      // Set default view to 2D on load
+      window.onload = function () {
+        setView('3D');
+      };
+    </script>
+
+  </header>
+
+  <div class="container-fluid">
+
+
+    <div class="row main-row">
+      <!-- Left Column -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Right Column -->
+      <div class="container-fluid mt-4 mb-10">
+
+
+        <div
+          class="fixed right-8 top-40 bottom-20 w-96 bg-gray-800 text-white p-4 rounded-2xl shadow-2xl overflow-hidden"
+          id="draggable-menu">
+          <h2 class="text-xl font-semibold mb-8">Menu</h2>
+
+          <ul class="space-y-2">
+            <li id="items_tab">
+              <a href="#" class="block p-2 rounded-lg text-white hover:bg-gray-600 transition">Add Furniture</a>
+            </li>
+          </ul>
+
+          <!-- Items List -->
+          <div id="add-items" class="mt-4 overflow-y-auto max-h-96">
+            <h3 class="text-lg font-semibold mb-2">Items List</h3>
+            <div id="items-wrapper" class="flex flex-col gap-2">
+              <!-- Items will be added here dynamically -->
+            </div>
+          </div>
+
+          <!-- Context Menu -->
+          <div id="context-menu" class="mt-6">
+            <h3 class="text-lg font-semibold">Context Menu</h3>
+            <button class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 mt-4 rounded-lg"
+              id="context-menu-delete">
+              <span class="glyphicon glyphicon-trash"></span> Delete Item
+            </button>
+
+            <div class="bg-white text-gray-800 p-4 mt-4 rounded-lg">
+              <h4 class="text-md font-semibold">Adjust Size</h4>
+              <label class="block mt-2">Width</label>
+              <input type="number" class="w-full p-2 border rounded-lg" id="item-width">
+              <label class="block mt-2">Depth</label>
+              <input type="number" class="w-full p-2 border rounded-lg" id="item-depth">
+              <label class="block mt-2">Height</label>
+              <input type="number" class="w-full p-2 border rounded-lg" id="item-height">
+            </div>
+
+            <label class="flex items-center mt-4">
+              <input type="checkbox" id="fixed" class="mr-2"> Lock in place
+            </label>
+          </div>
+
+          <!-- Floor Textures -->
+          <div id="floorTexturesDiv" style="padding: 0 20px">
+            <div class="panel panel-default">
+              <div class="panel-heading">Adjust Floor</div>
+             <div class="panel-body" style="color: #333333">
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F1.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Rustic Oak" src="models/Floor/F1.jpg">
+    </a>
+  </div>
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F2.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Polished Concrete" src="models/Floor/F2.jpg">
+    </a>
+  </div>
+    <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="rooms/textures/hardwood.png" texture-stretch="false" texture-scale="300">
+      <img alt="Polished Concrete" src="rooms/textures/hardwood.png">
+    </a>
+  </div>
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F3.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Natural Walnut" src="models/Floor/F3.jpg">
+    </a>
+  </div>
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F4.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Vintage Maple" src="models/Floor/F4.jpg">
+    </a>
+  </div>
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F5.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Stone Gray" src="models/Floor/F5.jpg">
+    </a>
+  </div>
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F6.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Dark Cherry" src="models/Floor/F6.jpg">
+    </a>
+  </div>
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F7.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Weathered Pine" src="models/Floor/F7.jpg">
+    </a>
+  </div>
+  <div class="col-sm-6" style="padding:3px">
+    <a href="#" class="thumbnail texture-select-thumbnail texture-card" texture-url="models/Floor/F8.jpg" texture-stretch="false" texture-scale="300">
+      <img alt="Slate Tile" src="models/Floor/F8.jpg">
+    </a>
+  </div>
+</div>
+
+            </div>
+          </div>
+
+          <!-- Wall Textures -->
+          <div id="wallTextures" style="padding: 0 20px">
+            <div class="panel panel-default">
+              <div class="panel-heading">Adjust Wall</div>
+
+
+              <div class="panel-body texture-grid" style="color: #333333">
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W1.jpeg"
+                    texture-stretch="false" texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W1.jpeg" alt="Classic White Paint">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W12.png"
+                    texture-stretch="false" texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W12.png" alt="Classic White Paint">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W2.jpeg"
+                    texture-stretch="false" texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W2.jpeg" alt="Urban Brick">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W3.jpeg"
+                    texture-stretch="false" texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W3.jpeg" alt="Textured Plaster">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W4.avif"
+                    texture-stretch="false" texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W4.avif" alt="Modern Concrete">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W5.jpg" texture-stretch="false"
+                    texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W5.jpg" alt="Warm Sandstone">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W6.jpg" texture-stretch="false"
+                    texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W6.jpg" alt="Vintage Wallpaper">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W7.jpg" texture-stretch="false"
+                    texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W7.jpg" alt="Raw Cement">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W8.jpg" texture-stretch="false"
+                    texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W8.jpg" alt="Wood Panel">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W9.jpg" texture-stretch="false"
+                    texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W9.jpg" alt="Grey Marble">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <a href="#" class="texture-select-thumbnail" texture-url="models/Walls/W10.jpg"
+                    texture-stretch="false" texture-scale="300">
+                    <div class="texture-card">
+                      <img src="models/Walls/W10.jpg" alt="Soft Beige Paint">
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- <script>
+              function setView(view) {
+                  console.log("Switched to", view);
+              }
+          </script> -->
+
+
+        <!-- 3D Viewer -->
+        <div id="viewer" class="pointer-events-auto">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- Heroicons CDN (optional if you already include them) -->
+          <script src="https://unpkg.com/heroicons@2.0.16/outline/index.min.js"></script>
+
+          <!-- Sidebar -->
+          <div class="fixed left-4 top-1/4 flex flex-col items-center bg-white shadow-xl rounded-2xl py-4 space-y-4">
+            <!-- Generic Button Style -->
+            <style>
+              .toolbar-btn svg {
+                width: 24px;
+                height: 24px;
+              }
+            </style>
+
+            <button id="zoom-out" class="toolbar-btn p-2 text-black hover:text-gray-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+              </svg>
+            </button>
+
+
+            <!-- Reset View -->
+            <button id="reset-view" class="toolbar-btn p-5 rounded hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10z" />
+              </svg>
+            </button>
+
+            <!-- Zoom In -->
+            <button id="zoom-in" class="toolbar-btn p-2 hover:text-gray-700 text-black transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+
+
+            <!-- Divider -->
+            <div class="w-8 border-t border-gray-300 my-2"></div>
+            <!-- Move Left -->
+            <button id="move-left" class="toolbar-btn p-3 rounded hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7 7-7M3 12h18" />
+              </svg>
+            </button>
+
+
+
+            <!-- Move Up -->
+            <button id="move-up" class="toolbar-btn p-3 rounded hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7 7 7M12 3v18" />
+              </svg>
+            </button>
+
+            <!-- Move Down -->
+            <button id="move-down" class="toolbar-btn p-3 rounded hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7-7-7M12 21V3" />
+              </svg>
+            </button>
+
+            <!-- Move Right -->
+            <button id="move-right" class="toolbar-btn p-3 rounded hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M21 12H3" />
+              </svg>
+            </button>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div id="loading-modal"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 text-white p-4 rounded-lg shadow-lg">
+            <h1 class="text-2xl font-bold">Loading...</h1>
+          </div>
+
+
+
+
+
+        </div>
+
+        <!-- 2D Floorplanner -->
+        <div id="floorplanner">
+
+          <canvas id="floorplanner-canvas"></canvas>
+          <!-- <div id="floorplanner-controls" class="mt-20 bg-transparent ">
+                <button id="move" class="btn btn-sm btn-control">
+                    <span class="glyphicon glyphicon-move"></span>
+                    Move Walls
+                </button>
+                <button id="draw" class="btn btn-sm btn-control">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    Draw Walls
+                </button>
+                <button id="delete" class="btn btn-sm btn-control">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Delete Walls
+                </button>
+                <span class="pull-right">
+                    <button class="btn btn-primary btn-sm" id="update-floorplan">Done &raquo;</button>
+                </span>
+            </div> -->
+          <div id="draw-walls-hint">
+            Press the "Esc" key to stop drawing walls
+          </div>
+        </div>
+
+
+        <!-- Add Items -->
+
+
+      </div>
+      <!-- End Right Column -->
+    </div>
+<div id="chat-widget" class="fixed bottom-8 left-24 z-50 font-sans">
+  <!-- Toggle Button -->
+  <button id="chat-toggle" class="bg-gray-700 text-white p-3 rounded-full shadow-lg hover:bg-gray-800 focus:outline-none">
+    💬
+  </button>
+
+  <!-- Chat Box -->
+  <div id="chat-box" class="hidden mt-3 w-96 bg-white rounded-xl shadow-lg border border-gray-300">
+    <!-- Header -->
+    <div class="flex justify-between items-center bg-gray-700 text-white p-3 rounded-t-xl">
+      <span class="font-medium">Room Design Chat</span>
+      <button id="chat-close" class="focus:outline-none">✖</button>
+    </div>
+
+    <!-- Messages -->
+    <div id="chat-messages" class="p-4 h-72 overflow-y-auto text-xl space-y-3">
+      <div class="text-gray-700">👋 Hello! What kind of room would you like to design today?</div>
+    </div>
+
+    <!-- Input -->
+    <div class="p-3 border-t flex items-center gap-2">
+      <input id="chat-input" type="text" placeholder="Type your message..." class="flex-1 border border-gray-300 text-black rounded px-3 py-2 text-xl focus:outline-none">
+      <button id="chat-send" class="text-gray-700 font-semibold hover:underline text-xl">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const toggleBtn = document.getElementById("chat-toggle");
+  const closeBtn = document.getElementById("chat-close");
+  const chatBox = document.getElementById("chat-box");
+  const sendBtn = document.getElementById("chat-send");
+  const input = document.getElementById("chat-input");
+  const messages = document.getElementById("chat-messages");
+
+  toggleBtn.addEventListener("click", () => {
+    chatBox.classList.toggle("hidden");
+    if (!chatBox.classList.contains("hidden")) {
+      input.focus();
+    }
+  });
+
+  closeBtn.addEventListener("click", () => {
+    chatBox.classList.add("hidden");
+  });
+
+  sendBtn.addEventListener("click", () => {
+    sendMessage();
+    input.focus();
+  });
+
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  function appendMessage(text, sender = "user") {
+    const msg = document.createElement("div");
+    msg.className = sender === "user"
+      ? "text-right text-xl text-gray-800"
+      : "text-left text-xl text-gray-700";
+    msg.textContent = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function sendMessage() {
+    const userInput = input.value.trim();
+    if (!userInput) return;
+
+    appendMessage(userInput, "user");
+    input.value = "";
+
+    const loading = document.createElement("div");
+    loading.className = "text-left text-xl text-gray-400 italic";
+    loading.textContent = "Typing...";
+    messages.appendChild(loading);
+    messages.scrollTop = messages.scrollHeight;
+
+    fetch("http://127.0.0.1:5000/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: userInput })
+    })
+    .then(res => res.json())
+    .then(data => {
+      loading.remove();
+      appendMessage(data.response || "Sorry, I couldn't understand that.", "bot");
+    })
+    .catch(() => {
+      loading.remove();
+      appendMessage("An error occurred while contacting the bot.", "bot");
+    });
+  }
+</script>
+
+
+  </div>
+
+</body>
+
+</html>
