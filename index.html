@@ -110,7 +110,7 @@
   <!-- Image or 3D Preview -->
   <div class="md:w-1/2 relative" data-aos="fade-left">
     <div class="rounded-3xl overflow-hidden shadow-2xl border border-white/20 transform transition-transform duration-500 hover:rotate-x-2 hover:-rotate-y-2 hover:scale-105 perspective-1000">
-      <img src="11444645.png" alt="3D Room Design" class="w-full object-cover" />
+      <img src="/11444645.png" alt="3D Room Design" class="w-full object-cover" />
     </div>
     
   </div>
@@ -269,14 +269,49 @@
 <section id="contact" class="py-20 bg-white/10 backdrop-blur-lg">
   <div class="max-w-screen-md mx-auto px-4 text-center text-white">
     <h2 class="text-4xl font-extrabold mb-8" data-aos="fade-up">📬 Get in Touch</h2>
-    <form class="space-y-6" data-aos="fade-up" data-aos-delay="100">
-      <input type="text" placeholder="Your Name" class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none" />
-      <input type="email" placeholder="Your Email" class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none" />
-      <textarea rows="5" placeholder="Your Message" class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none"></textarea>
+    <form id="contactForm" class="space-y-6" data-aos="fade-up" data-aos-delay="100">
+      <input id="name" type="text" placeholder="Your Name" required class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none" />
+      <input id="email" type="email" placeholder="Your Email" required class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none" />
+      <textarea id="message" rows="5" placeholder="Your Message" required class="w-full px-4 py-3 bg-black bg-opacity-40 rounded-lg text-white outline-none"></textarea>
       <button type="submit" class="bg-gray-700 hover:bg-gray-800 px-6 py-3 rounded-full font-semibold">Send Message</button>
     </form>
+    <p id="responseMsg" class="mt-4 text-green-300"></p>
   </div>
 </section>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    const responseMsg = document.getElementById('responseMsg');
+
+    try {
+      const res = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        responseMsg.textContent = '✅ Message sent successfully!';
+      } else {
+        responseMsg.textContent = '❌ Failed to send message. Try again later.';
+      }
+    } catch (error) {
+      console.error(error);
+      responseMsg.textContent = '❌ Something went wrong.';
+    }
+  });
+</script>
+
 
 
   <!-- Footer -->
