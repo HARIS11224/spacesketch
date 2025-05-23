@@ -128,7 +128,7 @@
             <!-- Dynamic Profile Image -->
             <template x-if="user.profileImage">
               <img
-                :src="user.profileImage ? `http://localhost:5000/${user.profileImage.replace(/\\/g, '/')}` : 'https://via.placeholder.com/100'"
+                :src="user.profileImage ? `https://space-backend-production.up.railway.app/${user.profileImage.replace(/\\/g, '/')}` : 'https://via.placeholder.com/100'"
                 class="w-12 h-12 rounded-full border-2 border-gray-500 transition-transform transform hover:scale-105"
                 alt="User Image" />
             </template>
@@ -232,7 +232,7 @@
             <h2 class="text-2xl font-bold mb-4">Your Profile</h2>
             <div class="flex items-center mb-4">
               <img
-                :src="user.profileImage ? `http://localhost:5000/${user.profileImage.replace(/\\/g, '/')}` : 'https://via.placeholder.com/100'"
+                :src="user.profileImage ? `https://space-backend-production.up.railway.app/${user.profileImage.replace(/\\/g, '/')}` : 'https://via.placeholder.com/100'"
                 class="w-20 h-20 rounded-full border mr-4" alt="User Avatar" />
 
               <div>
@@ -511,7 +511,7 @@
         },
         async getUserData(userId) {
           try {
-            const res = await fetch(`http://localhost:5000/api/users/${userId}`);
+            const res = await fetch(`https://space-backend-production.up.railway.app/api/users/${userId}`);
             const data = await res.json();
             if (res.ok) {
               this.user = {
